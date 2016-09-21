@@ -63,10 +63,14 @@
                             if (result.success) {
                                 $('#myModal').modal('hide');
                                 $('#progress').hide();
-                                var queryString = "page=" + pageIndex;
+                                @*var queryString = "page=" + pageIndex;
                                 var requestUrl =
             '@Url.Action("Index")' + queryString;
-                                $('#ajaxgrid').load(requestUrl);
+                                $('#ajaxgrid').load(requestUrl);*@
+                                var pageIndex = "@grid.PageIndex";
+                                alert(pageIndex);
+                                $("#ajaxgrid").load("/phone/index",{ Page: pageIndex });
+                             //   window.location.replace("Index");
                                 //location.reload();
                                 //updateGrid();
                             } else {
