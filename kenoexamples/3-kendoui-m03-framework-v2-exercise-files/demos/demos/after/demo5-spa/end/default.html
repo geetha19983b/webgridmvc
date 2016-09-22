@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<meta charset="utf-8">
+		<title>Kendo UI:  Single Page Application </title>
+
+		<link href="content/kendo.common.min.css" rel="stylesheet" type="text/css"/>
+		<link href="content/kendo.default.min.css" rel="stylesheet" type="text/css"/>
+		<link href="content/site.css" rel="stylesheet" type="text/css"/>
+		
+		<script src="scripts/jquery.min.js" type="text/javascript"></script>
+		<script src="scripts/kendo.web.min.js" type="text/javascript"></script>
+
+	</head>
+
+	<body>
+
+		<div id="root"></div>
+
+		<!-- Main Template -->
+		<script type="text/x-kendo-template" id="main">
+		
+		    <div id="backgroundImage">
+		        <img src="content/images/background.png" alt="Kendo UI"/>
+		    </div>
+		
+		    <div id="contentWrapper">
+		
+		        <div class="firstLevelNav">
+		            <div id="firstLevelNavBackground"></div>
+		            <div id="firstLevelNavItemsWrapper">
+		                <ul id="firstLevelNavItemsList">
+		                    <li class="firstLevelNavItem">
+		                        <input class="hiddenId" type="hidden" value="1">
+		                        <a href="">Kendo UI Web</a>
+		                    </li>
+		                    <li class="firstLevelNavItem">
+		                        <input class="hiddenId" type="hidden" value="2">
+		                        <a href="">Kendo UI Mobile</a>
+		                    </li>
+		                </ul>
+		            </div>
+		            <hr class="firstLevelNavSeparator">
+		        </div>
+		
+		        <div id="content" class="paddedContent" style="display: none;">
+		            <div>
+		            </div>
+		        </div>
+		
+		    </div>
+		</script>
+		
+		<!-- Web -->
+		<script id="web" type="text/x-kendo-template">
+		    <div class="contentMainContainer">
+		        <h2>Kendo UI Web</h2>
+		        <div>
+		            Kendo UI Web is Awesomesauce!
+		        </div>
+		    </div>
+		</script>
+		
+		<!-- Mobile -->
+		<script id="mobile" type="text/x-kendo-template">
+		    <div class="contentMainContainer">
+		        <h2>Kendo UI Mobile</h2>
+		        <div>
+		            Kendo UI Mobile is the Bees Knees!
+		        </div>
+		    </div>
+		</script>
+
+		<script type="text/javascript">
+		    var router;
+		    var menu;
+		    var main = new kendo.View("main");
+		
+		    //Initialize New Router
+		    var router = new kendo.Router({
+		        init: function () {
+		            main.render("#root");
+		        }
+		    });
+
+		    //Default Route
+		    router.route("/", function() {
+		        $(".firstLevelNavItem").click(firstLevelNavItemClick);
+		    });
+		    
+		    //First Level Route
+		    router.route(":firstLevel", function(firstLevel) {
+		        $(".firstLevelNavItem").click(firstLevelNavItemClick);
+		        setCurrentFirstLevel(firstLevel);
+		    });
+
+		    function firstLevelNavItemClick(e) {
+		    	e.preventDefault();
+		    	var id = $(this).find(".hiddenId").val();
+		    	var route;
+		    	if (id == 1)
+		    		route = "web"
+		    	else
+		    		route = "mobile"
+		        router.navigate(route);
+		    }
+		    
+		    function setCurrentFirstLevel(firstLevel) {
+		    	var id;
+		    	var template;
+		    	if (firstLevel === "web") {
+		    		id = 1;
+		    		template = kendo.template($("#web").html());
+		    	}
+		    	else {
+		    		id = 2;
+		    		template = kendo.template($("#mobile").html());
+		    	}
+		        $(".firstLevelNavItem").removeClass("firstLevelNavItemSelected");
+		        var li = $("#firstLevelNavItemsList").find($("input[value='" + id + "']")).closest("li");
+		        $(li).addClass("firstLevelNavItemSelected");
+		        hideContent(function() {
+		    		showContent(function() {
+		        		$("#content").html(template);
+		    		});
+		    	});
+		    }
+		    
+		    function showContent(callback) {
+		        var content = $("#content");
+		        $(content).css("padding-right","20px");
+		        $(content).css("padding-left","20px");
+		        $(content).animate(
+		            {width: "show"},1000,
+		            function(){
+		                if (callback) callback();
+		            }
+		        );
+		    }
+		    
+		    function hideContent(callback) {
+		        var content = $("#content");
+		        $(content).css("padding-right","0");
+		        $(content).css("padding-left","0");
+		        $(content).html('');
+		        $(content).animate(
+		            {width: "hide"},1000,
+		            function(){
+		                if (callback) callback();
+		            }
+		        );
+		    }
+
+		    $(function () {
+		        router.start();
+		    });  
+		
+		</script>
+
+	</body>
+
+</html>
+

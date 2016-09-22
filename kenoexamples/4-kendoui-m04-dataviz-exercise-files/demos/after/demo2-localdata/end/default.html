@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<meta charset="utf-8">
+		<title>Kendo UI:  Chart Data Binding - Local Data </title>
+
+		<link href="content/kendo.common.min.css" rel="stylesheet" type="text/css"/>
+		<link href="content/kendo.default.min.css" rel="stylesheet" type="text/css"/>
+		
+		<script src="scripts/jquery.min.js" type="text/javascript"></script>
+		<script src="scripts/kendo.all.min.js" type="text/javascript"></script>
+
+	</head>
+
+	<body>
+
+		<div id="chart"></div>		
+
+		<script type="text/javascript">
+
+			$(function() {
+
+				var temperatures = [68.4, 71.2, 86.9, 81.7, 79.8];
+
+				$("#chart").kendoChart({
+					seriesDefaults: {type: "line"},
+					series: [{data: temperatures}]
+				});
+				
+			});
+		</script>
+		
+	</body>
+</html>
+

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<meta charset="utf-8">
+		<title>Kendo UI Mobile: Form </title>
+
+		<link href="content/kendo.common.min.css" rel="stylesheet" type="text/css"/>
+		<link href="content/kendo.mobile.all.min.css" rel="stylesheet" type="text/css"/>
+		<link href="content/custom.css" rel="stylesheet" type="text/css"/>
+		
+		<script src="scripts/jquery.min.js" type="text/javascript"></script>
+		<script src="scripts/kendo.mobile.min.js" type="text/javascript"></script>
+
+	</head>
+
+	<body>
+
+		<!-- Split View -->
+		<div data-role="splitview">
+		
+			<!-- Left Pane -->
+			<div data-role="pane" id="leftPane" data-layout="leftPaneLayout">
+		
+		   		<!-- Header Layout -->
+		    	<div data-role="layout" data-id="leftPaneLayout">
+		            <div data-role="header">
+		                <div data-role="navbar">
+		                    <span data-role="view-title"></span>
+		                </div>
+		            </div>
+		        </div>
+
+		        <!-- Left Panel View -->
+		        <div data-role="view" data-title="Left Panel View" id="leftPanelView">
+		           <ul data-role="listview" data-style="inset" data-source="carHeaders" data-template="headersTemplate">
+		           </ul>
+		        </div>
+
+		        <!-- Left Pane Data Template -->
+		        <script id="headersTemplate" type="text/x-kendo-template">
+	            	<a href="\#mainPanelView?headerId=#: headerId #" data-target="mainPane">
+	            	    <span>#: name #</span>
+	            	</a>
+		        </script>
+
+			</div>
+			
+			<!-- Main Pane -->
+			<div data-role="pane" id="mainPane" data-layout="mainPaneLayout">
+			
+				<!-- Header Layout -->
+				<div data-role="layout" data-id="mainPaneLayout">
+		            <div data-role="header">
+		                <div data-role="navbar">
+		                    <span data-role="view-title"></span>
+		                </div>
+		            </div>
+		        </div>
+		
+		        <!-- Main Panel View -->
+		        <div data-role="view" data-title="Main Panel View" id="mainPanelView" data-show="filterDetails">
+		        	<ul data-role="listview" data-auto-bind-"false" data-source="carDetails" data-template="detailsTemplate">
+		        	</ul>
+		        </div>
+
+		        <!-- Main Panel Data Template -->
+		        <script type="text/x-kendo-template" id="detailsTemplate">
+		        	<div>
+		        		<span>#: name #</span><br/>
+		        		<span>Brake Horsepower: #: brakeHorsepower #</span><br/>
+		        		<span>Top Speed: #: topSpeed #</span><br/>
+		        		<span>0 - 60: #: zeroToSixty #</span><br/>
+		        		<img src="#: imageUrl #">
+		        	</div>
+		        </script>
+
+			</div>
+		
+		</div>
+
+		<script>
+		
+		    var carHeaders = new kendo.data.DataSource({data: [
+		    		{headerId: 1, name: "Ferrari 458 Italia"}, 
+		    		{headerId: 2, name: "Lamborghini Gallardo"},
+		    		{headerId: 3, name: "Porsche 911 GT2 RS"}
+		    	]
+		    });
+		
+		    var carDetails = new kendo.data.DataSource({data: [
+					{
+						detailId: 1, headerId: 2, name: "Lamborghini Gallardo", brakeHorsepower: 560, 
+						topSpeed: 192, zeroToSixty: 3.41, quarterMile: 11.22, 
+						basePrice: 202000, imageUrl: "content/images/gallardo.jpg",
+						moreInfoUrl: "http://www.lamborghini.com/en/models/gallardo/lp-560-4/overview/"
+					}, 
+					{
+						detailId: 2, headerId: 1, name: "Ferrari 458 Italia", brakeHorsepower: 532, 
+						topSpeed: 202, zeroToSixty: 3.04, quarterMile: 10.86, 
+						basePrice: 220000, imageUrl: "content/images/458italia.jpg" ,
+						moreInfoUrl: "http://www.ferrari.com/english/gt_sport%20cars/currentrange/458-italia/Pages/458-Italia.aspx"
+		
+					}, 
+					{
+						detailId: 3, headerId: 3, name: "Porsche 911 GT2 RS", brakeHorsepower: 620, 
+						topSpeed: 218, zeroToSixty: 3.38, quarterMile: 11.24, 
+						basePrice: 254000, imageUrl: "content/images/911GT2.jpg",
+						moreInfoUrl: "http://www.porsche.com/microsite/911gt2rs/usa.aspx"
+					}
+				]
+			});
+
+			function filterDetails(e) {
+				carDetails.filter({
+			    	field: "headerId",
+			    	operator: "eq",
+			    	value: parseInt(e.view.params.headerId)
+				});
+				carDetails.read();
+			}
+		
+		</script>
+
+		<script>
+		    window.app = new kendo.mobile.Application(document.body);
+		</script>
+
+    </body>
+
+</html>
+

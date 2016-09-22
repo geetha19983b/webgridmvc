@@ -1,0 +1,21 @@
+#mainView .km-view-title
+{
+    display: inherit;
+}
+
+#otherView .km-view-title
+{
+    display: inherit;
+}
+
+.km-android #mainView .km-view-title
+{
+    display: block;
+    position: static;
+}
+
+.km-android #otherView .km-view-title
+{
+    display: block;
+    position: static;
+}

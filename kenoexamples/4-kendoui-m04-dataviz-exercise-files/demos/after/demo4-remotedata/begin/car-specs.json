@@ -1,0 +1,23 @@
+[
+	{
+		"car" : "Lamborghini Gallardo", 
+		"brakeHorsePower" : 560, 
+		"topSpeed" : 192, 
+		"zeroToSixty" : 3.4, 
+		"basePrice" : 202000  
+	}, 
+	{
+		"car" : "Ferrari 458 Italia", 
+		"brakeHorsePower" : 532, 
+		"topSpeed" : 202, 
+		"zeroToSixty" : 3.0, 
+		"basePrice" : 220000 
+	}, 
+	{
+		"car": "Porsche 911 GT2 R2", 
+		"brakeHorsePower" : 620, 
+		"topSpeed" : 218, 
+		"zeroToSixty" : 3.3, 
+		"basePrice" : 254000 
+	}
+]

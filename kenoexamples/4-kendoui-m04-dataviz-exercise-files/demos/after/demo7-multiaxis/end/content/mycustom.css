@@ -1,0 +1,23 @@
+#chart {
+	width: 750px;
+}
+
+.tooltipTable {
+	width: 100%;
+}
+
+.tooltipTable tr {
+	text-align: left;
+}
+
+.titleCell {
+	 padding-right: 20px;
+}
+
+.valueCell {
+	text-align: right;
+}
+
+.moreInfoCell {
+	text-align: center;
+}
