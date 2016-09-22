@@ -1,5 +1,5 @@
 ﻿
-<div style="margin-top:17px;">
+<div style="margin-top:17px;" id="ajaxgrid">
     @{
 
         var grid = new WebGrid(
@@ -11,7 +11,8 @@
 
         grid.Bind(Model.Content, rowCount: Model.TotalRecords, autoSortAndPage: false);
         grid.Pager(WebGridPagerModes.All); }
-    <div id="ajaxgrid">
+    </div>
+ 
 
         @grid.GetHtml(
 
@@ -23,18 +24,44 @@
               grid.Column("Model", "Model", style: "col-lg-4"),
               grid.Column("Company", "Company", style: "col-lg-3"),
               grid.Column("Price", header: "Price", format: @<text>@String.Format("{0:C}", item.Price) </text>),
-              grid.Column(header: "Action", canSort: false, style: "action",
-                format: @<text>
-                @Html.Raw("<a data-modal='' href='/phone/details/" + item.PhoneId + "' id='" + item.PhoneId + "' title='Detail'> <span class='glyphicon glyphicon-search'> </span> </a>")
-                @Html.Raw("<a data-modal='' href='/phone/edit/" + item.PhoneId + "' id='" + item.PhoneId +
-                "' title='Edit'> <span class='glyphicon glyphicon-edit'> </span> </a>")
-                @Html.Raw("<a data-modal='' href='/phone/delete/" + item.PhoneId + "' id='" + item.PhoneId + "' title='Delete'> <span class='glyphicon glyphicon-trash'> </span> </a>")
-                </text>)
+                grid.Column(header: "Action", canSort: false, style: "action",
+                    format: @<text>
+                    @Html.Raw("<a data-modal='' href='/phone/details/" + item.PhoneId + "' id='" + item.PhoneId + "' title='Detail'> <span class='glyphicon glyphicon-search'> </span> </a>")
+                    @Html.Raw("<a data-modal='' href='/phone/edit/" + item.PhoneId + "' id='" + item.PhoneId +
+                    "' page='" + ViewBag.Page +
+                    "' title='Edit'> <span class='glyphicon glyphicon-edit'> </span> </a>")
+                    @Html.Raw("<a data-modal='' href='/phone/delete/" + item.PhoneId + "' id='" + item.PhoneId + "' title='Delete'> <span class='glyphicon glyphicon-trash'> </span> </a>")
+                    </text>)
 
-            ));
-        <script type="text/javascript">
-            var pageIndex = "@grid.PageIndex";//We'd better add the double quotation marks
-        </script>
+           // grid.Column(header: "Action", canSort: false, style: "action",
+           // format: (item) =>
+           // new HtmlString(
+           //      Html.ActionLink("Details", "Details", new
+           //      {
+           //          id = item.PhoneId,
+           //          page = ViewBag.Page
+           //      }, new { data_modal = "foo" }).ToString() +
+
+            //     Html.ActionLink("Edit", "Edit", new
+            //     {
+            //         id = item.PhoneId,
+            //         page = ViewBag.Page
+            //     }, new { data_modal = "foo" }).ToString() +
+
+            //      Html.ActionLink("Delete", "Delete", new
+            //      {
+            //          id = item.PhoneId,
+            //          page = ViewBag.Page
+            //      }, new { data_modal = "foo" }).ToString()
+            //    )
+            //)
+
+
+
+            ))
+        @*<script type="text/javascript">
+                var pageIndex = "@grid.PageIndex";//We'd better add the double quotation marks
+            </script>*@
         <script type="text/javascript">
             $(function () {
                 $.ajaxSetup({ cache: false });
@@ -63,15 +90,13 @@
                             if (result.success) {
                                 $('#myModal').modal('hide');
                                 $('#progress').hide();
-                                @*var queryString = "page=" + pageIndex;
-                                var requestUrl =
-            '@Url.Action("Index")' + queryString;
-                                $('#ajaxgrid').load(requestUrl);*@
-                                var pageIndex = "@grid.PageIndex";
-                                alert(pageIndex);
-                                $("#ajaxgrid").load("/phone/index",{ Page: pageIndex });
-                             //   window.location.replace("Index");
-                                //location.reload();
+                             
+                                @*var number = parseInt(@ViewBag.Page); //Accessing the number from the ViewBag
+                                alert("Number is: " + number);*@
+                                //$("#ajaxgrid").remove();
+                               // $("#ajaxgrid").reload("/phone/index", { Page: number });
+                                //window.location.replace("Index");
+                                 location.reload();
                                 //updateGrid();
                             } else {
                                 $('#progress').hide();
@@ -90,8 +115,5 @@
                 @Html.Raw(HttpUtility.HtmlDecode(grid.GetContainerUpdateScript("/?page=" + (grid.PageIndex + 1)).ToString()))
             }*@
         </script>
-
-    </div>
-</div>
 
 

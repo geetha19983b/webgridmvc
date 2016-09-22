@@ -37,13 +37,13 @@ namespace MvcBootstrapCrud.Controllers
 
             records.CurrentPage = page;
             records.PageSize = pageSize;
+            ViewBag.Page = page;
 
-
-            //if (Request.IsAjaxRequest())
-            //    return PartialView("ajaxgridpartial", records);
-            //else
-            //    return View(records);
-            return View(records);
+            if (Request.IsAjaxRequest())
+                return PartialView("ajaxgridpartial", records);
+            else
+                return View(records);
+           // return View(records);
         }
         // GET: /Phone/Details/5
         public ActionResult Details(int id = 0)
@@ -105,9 +105,10 @@ namespace MvcBootstrapCrud.Controllers
         // POST: /Phone/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Phone phone)
+        public ActionResult Edit(Phone phone,string page)
         {
-           
+            ViewBag.Page = page;
+
             if (ModelState.IsValid)
             {
                 db.Entry(phone).State = EntityState.Modified;
